@@ -46,7 +46,7 @@
       <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
 
       <!-- Colonnes pour les audits -->
-      <ng-container *ngIf="source !== 'Contrôles Qualités' && source !== 'Réclamations Clients'">
+      <ng-container *ngIf="source !== 'QualityControl' && source !== 'CustomerComplaint'">
         <dxi-column dataField="id" caption="id" allowReordering="true"></dxi-column>
         <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
         <dxi-column dataField="auditNatureStr" caption="Nature Audit" allowReordering="true"></dxi-column>
@@ -57,7 +57,7 @@
       </ng-container>
 
       <!-- Colonnes pour les contrôles qualités -->
-      <ng-container *ngIf="source === 'Contrôles Qualités'">
+      <ng-container *ngIf="source === 'QualityControl'">
         <dxi-column dataField="id" caption="id" allowReordering="true" [visible]="false"></dxi-column>
         <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
         <dxi-column dataField="reference" caption="Référence" allowReordering="true"></dxi-column>
@@ -68,7 +68,7 @@
       </ng-container>
 
       <!-- Colonnes pour les réclamations clients -->
-      <ng-container *ngIf="source === 'Réclamations Clients'">
+      <ng-container *ngIf="source === 'CustomerComplaint'">
         <dxi-column dataField="id" caption="id" allowReordering="true" [visible]="false"></dxi-column>
         <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
         <dxi-column dataField="reference" caption="Référence" allowReordering="true"></dxi-column>

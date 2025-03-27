@@ -64,7 +64,22 @@ export class CreationNonConformityComponent  implements OnInit {
     selectRecord(event: any) {
       this.selectedRecord = event.data;
       this.selectRecordId = event.data.id;
-      console.log("selected record:",this.selectedRecord);
+
+      if(this.source){
+        //case audit
+        if(this.source === "Audit Interne" || this.source === "Audit Certification" || this.source === "Audit Externe" ){
+          this.auditID = this.selectRecordId;       
+        }
+        //case quality controle
+        else if (this.source === "QualityControl"){
+          this.qcID = this.selectRecordId;       
+        }
+        //case customer complaint
+        else{
+          this.ccID = this.selectRecordId;     
+        }
+      }
+      console.log("selected record id:",this.selectRecordId);
     }
 
    // Enregistrer les données (à adapter selon ton modèle de données)
@@ -82,64 +97,6 @@ export class CreationNonConformityComponent  implements OnInit {
       controlId: this.qcID,
       customerComplaintId: this.ccID,
     });
-
-    if(linkToSave.linkSourceStr){
-      //case audit
-      if(linkToSave.linkSourceStr === "Audit Interne" || linkToSave.linkSourceStr === "Audit Certification" || linkToSave.linkSourceStr === "Audit externe" ){
-        this.auditID = this.selectRecordId;       
-        // if (this.selectRecordId) {
-        //   this.nonConformityService.getAuditById(this.selectRecordId).subscribe(
-        //     (auditData) => {
-        //       if (auditData) {
-        //         linkToSave.auditReference = auditData.auditReference;
-        //         linkToSave.auditDesignation = auditData.auditDesignation;
-        //         linkToSave.auditType = auditData.auditType;
-        //       }
-        //     },
-        //     (error) => {
-        //       console.error("Error fetching audit details:", error);
-        //     }
-        //   );
-        // }
-      }
-      //case quality controle
-      else if (this.source === "Contrôles Qualités"){
-        this.qcID = this.selectRecordId;       
-        // Fetch quality controle details
-        // if (this.selectRecordId) {
-        //   this.nonConformityService.getQCById(this.selectRecordId).subscribe(
-        //     (QCtData) => {
-        //       if (QCtData) {
-        //         linkToSave.controlReference = QCtData.controlReference;
-        //         linkToSave.controlProductReference = QCtData.controlProductReference;
-        //         linkToSave.controlProductDesignation = QCtData.controlProductDesignation;
-        //       }
-        //     },
-        //     (error) => {
-        //       console.error("Error fetching quality controle details:", error);
-        //     }
-        //   );
-        // }
-      }
-      //case customer complaint
-      else{
-        this.ccID = this.selectRecordId;     
-        // Fetch customer complaint details
-        if (this.selectRecordId) {
-          // this.nonConformityService.getCCById(this.selectRecordId).subscribe(
-          //   (CCtData) => {
-          //     if (CCtData) {
-          //       linkToSave.customerComplaintReference = CCtData.customerComplaintReference;
-          //       linkToSave.customerComplaintDesignation = CCtData.customerComplaintDesignation;
-          //     }
-          //   },
-          //   (error) => {
-          //     console.error("Error fetching quality controle details:", error);
-          //   }
-          // );
-        }
-      }
-    }
 
     // Ajouter ce lien à la liste des ncLinks (ou effectuez une opération d'ajout dans votre service)
     this.ncLinks.push(linkToSave);  
