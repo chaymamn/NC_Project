@@ -1,0 +1,49 @@
+<ion-content class="ion-padding">
+  <div class="auth-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Login</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Username input -->
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input [(ngModel)]="username" type="text" required></ion-input>
+        </ion-item>
+
+        <!-- Password input -->
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input [(ngModel)]="password" type="password" required></ion-input>
+        </ion-item>
+
+      <!-- Company selection -->
+      <ion-item>
+        <ion-label>Company</ion-label>
+        <ion-select [(ngModel)]="selectedCompany" (ionChange)="onCompanyChange()" placeholder="Select a Company" required>
+          <ion-select-option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Site selection -->
+      <ion-item>
+        <ion-label>Site</ion-label>
+        <ion-select [(ngModel)]="selectedSite" placeholder="Select a Site" required>
+          <ion-select-option *ngFor="let site of filteredSites" [value]="site.id">{{ site.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+        <!-- Error message -->
+        <ion-text color="danger" *ngIf="errorMessage">
+          <p>{{ errorMessage }}</p>
+        </ion-text>
+
+        <!-- Login Button -->
+        <ion-button expand="full" (click)="loginUser()">Login</ion-button>
+        
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

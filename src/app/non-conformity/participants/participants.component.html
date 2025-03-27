@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Participants
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Replace ion-content with div or section -->
+<div>
+  <ion-searchbar 
+  [(ngModel)]="searchQuery" 
+  (ionInput)="onSearchChange()" 
+  aria-label="Search non conformities" 
+  debounce="500">
+  </ion-searchbar>
+
+  <!-- Zone des boutons à gauche et à droite -->
+  <div class="action-buttons-container">
+    <!-- Icône de filtre -->
+    <div class="icon-filter">
+      <ion-icon name="funnel-outline" size="large"></ion-icon>  
+    </div>
+
+    <!-- Bouton + circulaire -->
+    <button class="plus-button" (click)="onAddParticipants()">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </button>
+  </div>
+
+
+<!-- Liste des participants sélectionnés -->
+<ion-grid class="participant-list">
+  <!-- Entête du tableau -->
+  <ion-row>
+    <ion-col size="3">
+      <strong>Matricule</strong>
+    </ion-col>
+    <ion-col size="4">
+      <strong>Nom et Prénom</strong>
+    </ion-col>
+    <ion-col size="2">
+      <strong>Service</strong>
+    </ion-col>
+    <ion-col size="3">
+      <!-- Statut sous forme de badge avec différentes couleurs -->
+      <div class="status-badges-container">
+        <div class="tooltip-container">
+          <ion-badge class="status-badge" style="background-color: #FFF0BB;">S</ion-badge>
+          <span class="tooltip-text">Superviseur</span>
+        </div>
+        <div class="tooltip-container">
+          <ion-badge class="status-badge" style="background-color: #214A6E;">D</ion-badge>
+          <span class="tooltip-text">Détecteur</span>
+        </div>
+        <div class="tooltip-container">
+          <ion-badge class="status-badge" style="background-color: #FB5151;">R.A</ion-badge>
+          <span class="tooltip-text">Resp. Analyse</span>
+        </div>
+        <div class="tooltip-container">
+          <ion-badge class="status-badge" style="background-color: #439636;">R.C</ion-badge>
+          <span class="tooltip-text">Resp. Correction</span>
+        </div>
+        <div class="tooltip-container">
+          <ion-badge class="status-badge" style="background-color: #9614A2;">AI</ion-badge>
+          <span class="tooltip-text">À Informer</span>
+        </div>
+      </div>
+      
+    </ion-col>
+    
+  </ion-row>
+
+  <!-- Liste des participants -->
+  <ion-row *ngFor="let participant of selectedParticipants" class="participant-item">
+    <ion-col size="3">
+      {{ participant.matricule }}
+    </ion-col>
+    <ion-col size="4">
+      {{ participant.fullName }}
+    </ion-col>
+    <ion-col size="2">
+      {{ participant.service }}
+    </ion-col>
+
+    <ion-col size="3">
+      <!-- Cases à cocher sous les badges -->
+      <div class="checkbox-container">
+        <ion-checkbox [(ngModel)]="participant.checkbox1" class="checkbox" label="Option 1"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="participant.checkbox2" class="checkbox" label="Option 2"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="participant.checkbox3" class="checkbox" label="Option 3"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="participant.checkbox4" class="checkbox" label="Option 4"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="participant.checkbox5" class="checkbox" label="Option 5"></ion-checkbox>
+      </div>
+    </ion-col> 
+  </ion-row>
+</ion-grid>
+
+<!-- Message si aucun participant n'est sélectionné -->
+<div *ngIf="selectedParticipants.length === 0" class="empty-message">
+  Aucun participant sélectionné.
+</div>
+
+

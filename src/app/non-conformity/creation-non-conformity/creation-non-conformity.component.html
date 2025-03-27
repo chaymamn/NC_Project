@@ -1,0 +1,110 @@
+<dx-popup
+  [(visible)]="popupVisible"
+  [showTitle]="true"
+  title="Liens de non-conformités"
+  [width]="800"
+  [height]="600"
+  [dragEnabled]="true"
+  [hideOnOutsideClick]="true"
+  (onHiding)="closePopup()">
+  
+  <div class="popup-content">
+    <!-- Type de lien -->
+    <div class="form-field">
+      <label for="typeLien">Type de lien</label>
+      <input type="text" id="typeLien" [(ngModel)]="typeLien" disabled />
+    </div>
+
+    <!-- Source -->
+    <div class="form-field">
+      <label for="source">Source</label>
+      <select id="source" [(ngModel)]="source">
+        <option *ngFor="let option of sourceOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+
+    <!-- Tableau des données -->
+    <div *ngIf="displayedData.length > 0" class="table">
+    <h3>Liée avec : {{ source }}</h3>  
+    <dx-data-grid
+      [dataSource]="displayedData"
+      [showBorders]="true"
+      [columnAutoWidth]="true"
+      [allowColumnResizing]="true"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      (onRowClick)="selectRecord($event)">
+      
+      <!-- Pagination -->
+      <dxo-paging [pageSize]="5"></dxo-paging>
+      <!-- Recherche -->
+      <dxo-search-panel [visible]="true" [highlightSearchText]="true"></dxo-search-panel>
+      <!-- Filtrage -->
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <!-- Groupement -->
+      <dxo-group-panel [visible]="true" [allowColumnDragging]="true"></dxo-group-panel>
+      <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+      <!-- Colonnes pour les audits -->
+      <ng-container *ngIf="source !== 'Contrôles Qualités' && source !== 'Réclamations Clients'">
+        <dxi-column dataField="id" caption="id" allowReordering="true"></dxi-column>
+        <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
+        <dxi-column dataField="auditNatureStr" caption="Nature Audit" allowReordering="true"></dxi-column>
+        <dxi-column dataField="reference" caption="Référence" allowReordering="true"></dxi-column>
+        <dxi-column dataField="startDate" caption="Date Début" dataType="date" format="dd/MM/yyyy" allowReordering="true"></dxi-column>
+        <dxi-column dataField="endDateP" caption="Date Fin" dataType="date" format="dd/MM/yyyy" allowReordering="true"></dxi-column>
+        <dxi-column dataField="stateStr" caption="État"></dxi-column>
+      </ng-container>
+
+      <!-- Colonnes pour les contrôles qualités -->
+      <ng-container *ngIf="source === 'Contrôles Qualités'">
+        <dxi-column dataField="id" caption="id" allowReordering="true" [visible]="false"></dxi-column>
+        <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
+        <dxi-column dataField="reference" caption="Référence" allowReordering="true"></dxi-column>
+        <dxi-column dataField="internalReference" caption="Référence Interne QC" allowReordering="true"></dxi-column>
+        <dxi-column dataField="productFullDesignation" caption="Produit" allowReordering="true"></dxi-column>
+        <dxi-column dataField="productFamilyFullDesignation" caption="Famille des produits" allowReordering="true"></dxi-column>
+        <dxi-column dataField="date" caption="Date" dataType="date" format="dd/MM/yyyy" allowReordering="true"></dxi-column>
+      </ng-container>
+
+      <!-- Colonnes pour les réclamations clients -->
+      <ng-container *ngIf="source === 'Réclamations Clients'">
+        <dxi-column dataField="id" caption="id" allowReordering="true" [visible]="false"></dxi-column>
+        <dxi-column dataField="year" caption="Année" allowReordering="true"></dxi-column>
+        <dxi-column dataField="reference" caption="Référence" allowReordering="true"></dxi-column>
+        <dxi-column dataField="customerDesignation" caption="Client" allowReordering="true"></dxi-column>
+        <dxi-column dataField="customerTypeFullDesignation" caption="Type de client" allowReordering="true"></dxi-column>
+        <dxi-column dataField="complaintTypesDesignation" caption="Type de réclamation" allowReordering="true"></dxi-column>
+        <dxi-column dataField="productReference" caption="Produits/Services" allowReordering="true"></dxi-column>
+        <dxi-column dataField="designation" caption="Intitulé" allowReordering="true"></dxi-column>
+        <dxi-column dataField="stateStr" caption="État" allowReordering="true"></dxi-column>
+        <dxi-column dataField="date" caption="Date" dataType="date" format="dd/MM/yyyy" allowReordering="true"></dxi-column>
+      </ng-container>
+    </dx-data-grid>
+  </div>
+
+
+  <div *ngIf="displayedData.length === 0">
+    <p> no data</p>
+    <p>{{ source}}</p>
+  </div>
+
+    <!-- Intitulé de la non-conformité -->
+    <div class="form-field">
+      <label for="intitule">Intitulé de la non-conformité</label>
+      <input type="text" id="intitule" [(ngModel)]="nonConformityService.non_conformity.designation" />
+    </div>
+
+    <!-- Commentaires du lien -->
+    <div class="form-field">
+      <label for="commentaires">Commentaires du lien</label>
+      <textarea id="commentaires" [(ngModel)]="ncComment"></textarea>
+    </div>
+
+    <div class="popup-buttons">
+      <button (click)="saveLink()">Enregistrer</button>
+      <button (click)="closePopup()">Annuler</button>
+    </div>
+
+  </div>
+</dx-popup>

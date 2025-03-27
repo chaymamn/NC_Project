@@ -1,0 +1,93 @@
+<div class="table-container">
+  <!-- Bouton Ajouter une ligne -->
+  <button class="add-button" (click)="addRow()">
+    <ion-icon name="add-circle-outline"></ion-icon> Ajouter une ligne
+  </button>
+
+  <!-- Tableau DevExtreme -->
+  <dx-data-grid
+    [dataSource]="dataSource"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [allowColumnResizing]="true"
+    [rowAlternationEnabled]="true"
+    [paging]="{ pageSize: 5 }"
+    [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }"
+    [editing]="{
+      mode: 'row',  
+      allowUpdating: true,
+      allowDeleting: true, 
+    }"
+    [filterRow]="{ visible: true }"
+    [groupPanel]="{ visible: true }">
+    
+    <!-- Colonne Type avec un Select -->
+    <dxi-column dataField="type" caption="Type" [groupIndex]="0">
+      <ng-template dxTemplate="cellTemplate" let-data>
+        <span [style.color]="getTypeColor(data.value)">
+          {{ data.value || "Sélectionner un type" }}
+        </span>
+      </ng-template>
+      <dxo-lookup
+        [dataSource]="actionTypes"
+        displayExpr="designation"  
+        valueExpr="designation">  <!-- Stocke la valeur choisie -->
+      </dxo-lookup>
+    </dxi-column>
+
+    <!-- Colonne Désignation (avec l'événement de clic) -->
+    <dxi-column dataField="designation" caption="Désignation">
+      <ng-template dxTemplate="cellTemplate" let-data>
+        <span class="clickable-cell" (click)="openPopup(data.row.rowIndex)">
+          {{ data.row.data.designation || "Cliquez pour saisir" }}
+        </span>      
+      </ng-template>
+    </dxi-column>
+
+    <!-- Colonne Resp. Correction -->
+    <dxi-column dataField="resp.correction" caption="Resp. Correction">
+      <dxo-lookup 
+        [dataSource]="participants" 
+        displayExpr="fullName" 
+        valueExpr="fullName">
+      </dxo-lookup>
+    </dxi-column>
+
+    <!-- Colonne Date prévue -->
+    <dxi-column dataField="date prevue" caption="Date prévue" [dataType]="'date'" [editorOptions]="{ type: 'date', displayFormat: 'dd/MM/yyyy' }"></dxi-column>>
+
+    <!-- Colonne Etat -->
+    <dxi-column dataField="etat" caption="État">
+      <dxo-lookup 
+        [dataSource]="etatOptions" 
+        displayExpr="text" 
+        valueExpr="value">
+      </dxo-lookup>
+    </dxi-column>
+
+    <!-- Colonne Date réelle -->
+    <dxi-column dataField="date reelle" caption="Date réelle" [dataType]="'date'" [editorOptions]="{ type: 'date', displayFormat: 'dd/MM/yyyy' }"></dxi-column>>
+
+    <!-- Colonne Commentaires -->
+    <dxi-column dataField="commentaires" caption="Commentaires"></dxi-column>
+
+  </dx-data-grid>
+</div>
+
+<!-- Popup pour la désignation -->
+<dx-popup
+  [visible]="popupVisible"
+  [showTitle]="true"
+  title="Saisir la Désignation"
+  [width]="500"
+  [height]="400"
+  (onHiding)="closePopup()">
+  
+  <dx-html-editor [(value)]="currentDesignation"></dx-html-editor>
+
+  <div class="popup-buttons">
+    <button (click)="saveDesignation()">Enregistrer</button>
+    <button (click)="closePopup()">Annuler</button>
+  </div>
+</dx-popup>
+

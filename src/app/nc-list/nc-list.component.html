@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Non Conformities List
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar 
+    [(ngModel)]="searchQuery" 
+    (ionInput)="filterNC()" 
+    aria-label="Search non conformities" 
+    debounce="500">
+  </ion-searchbar>
+
+  <div class="container">
+    <!-- Icône de filtre -->
+    <div class="icon-filter">
+      <ion-icon name="funnel-outline"></ion-icon>  
+    </div>
+
+    <!-- Boutons "Réelle" et "Potentielle" avec icône "plus" -->
+    <div class="buttons-container">
+      <ion-button class="reelle-button" (click)="goToCreationNonConformity('Réel(lle)')">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Réelle
+      </ion-button>
+      <ion-button class="potentielle-button" (click)="goToCreationNonConformity('Potentiel(lle)')">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Potentielle
+      </ion-button>
+    </div>
+  </div>
+  
+  
+  <div *ngIf="filteredNCList.length > 0">
+
+    <div *ngFor="let NonConformity of filteredNCList; trackBy: trackById">
+      <ion-card class="NC-card">
+        <div class="state-indicator" [ngClass]="getStateColor(NonConformity.stateStr)">
+          <span class="state-text">{{ NonConformity.stateStr || 'N/A' }}</span>
+        </div>
+
+        <div class="card-content">
+          <ion-card-header>
+            <ion-card-title>Reference: {{ NonConformity.reference || 'N/A' }}</ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <div class="right-labels">
+              <span class="badge">{{ NonConformity.nonConformityNatureStr || 'N/A' }}</span>
+              <span class="badge">{{ NonConformity.nonConformitySourceStr || 'N/A' }}</span>
+            </div> 
+            <div class="source-container">
+              <div class="source-ref">
+                <strong>Source Ref:</strong> {{ NonConformity.referenceSource || 'N/A' }}
+              </div>
+              <div class="NC-system">
+                {{ NonConformity.system || 'N/A' }}
+              </div>
+            </div>
+            <div class="intensity-container" [ngClass]="getIntensityClass(NonConformity.intensityDesignation)">
+              <ion-icon name="warning" class="intensity-icon"></ion-icon>
+              <div class="IntensityDes">
+                {{ NonConformity.intensityDesignation || 'N/A' }}
+              </div>
+            </div>            
+            <div class="designation">
+              {{ NonConformity.designation || 'N/A' }}
+            </div>
+            <div class="icon-actions">
+              <div class="icon-box chat-icon">  
+                <ion-icon name="chatbubble-ellipses-outline"></ion-icon>  
+              </div> <!-- Messagerie -->
+              <ion-icon name="construct-outline" class="action-icon"></ion-icon>  <!-- Actions de correction -->
+              <ion-icon name="search-circle-outline" class="action-icon"></ion-icon>  <!-- Analyse de causes -->
+              <ion-icon name="eye-outline" class="action-icon" (Click)="openNcDetails(NonConformity)"></ion-icon>  <!-- Visualisation -->
+            </div>            
+          </ion-card-content>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+
+
+  <div *ngIf="filteredNCList.length === 0">
+    <p>No Non Conformities logs available.</p>
+  </div>
+
+  <div *ngIf="!isAuthenticated">
+    <p>You need to log in to see Non Conformities logs.</p>
+  </div>
+
+  <ion-button style="font-size: 14px; padding: 6px 12px; margin-left: 0;" color="danger" (click)="logoutUser()">Logout</ion-button>
+
+</ion-content>
+
+
+
+<!-- Modal for Viewing NonConformity Details -->
+<ion-modal [isOpen]="isViewModalOpen" (ionModalDidDismiss)="isViewModalOpen = false">
+  <ng-template>
+    <div class="modal-content">
+      <h2>Détails de l'Action {{ selectedNc?.reference }}</h2>
+      <p><strong>Désignation :</strong> {{ selectedNc?.designation }}</p>
+      <p><strong>Description :</strong> {{ selectedNc?.description }}</p>
+      <p><strong>Non conformity status :</strong> {{ selectedNc?.stateStr }}</p>
+      <p><strong>Processus:</strong> {{ selectedNc?.processDesignation }}</p>
+
+      <ul *ngFor="let ncCorrection of nonConformityService.non_conformity.nonConformityCorrections">
+        <li> {{ ncCorrection?.designation }}</li>
+      </ul>
+      
+      <ul *ngFor="let ncAnalysis of nonConformityService.non_conformity.nonConformityAnalysis">
+        <li> {{ ncAnalysis?.causeDesignation }}</li>
+      </ul>
+      
+      <p><strong>Teams Supervisor :</strong> {{ selectedNc?.teamsSupervisor }}</p>
+      <p><strong>Teams Detector :</strong> {{ selectedNc?.teamsDetector }}</p>
+      <p><strong>Teams Responsable Analysis :</strong> {{ selectedNc?.teamsRespAnalysis }}</p>
+      <p><strong>Teams Responsable Correction :</strong> {{ selectedNc?.teamsRespCorrection }}</p>
+      <p><strong>Teams Is Informed :</strong> {{ selectedNc?.teamsIsInformed }}</p>
+      
+      <ion-button (click)="isViewModalOpen = false">Fermer</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>

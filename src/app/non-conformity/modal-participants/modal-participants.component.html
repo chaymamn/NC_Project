@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Choose Participants</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar 
+    [(ngModel)]="searchQuery" 
+    (ionInput)="onSearchChange()"
+    aria-label="Search participants" 
+    debounce="500">
+  </ion-searchbar>
+
+  <!-- Liste des participants avec cases à cocher -->
+  <ion-list>
+    <ion-item *ngFor="let participant of participants">
+      <ion-label>{{ participant.matricule }} - {{ participant.fullName }} - {{ participant.service }}</ion-label>
+      <ion-checkbox 
+        slot="start" 
+        (ionChange)="toggleSelection(participant)" 
+        [checked]="selectedParticipants.includes(participant)">
+      </ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <!-- Bouton pour fermer -->
+  <ion-footer>
+    <ion-button expand="full" (click)="closeModal()">Confirm Selection</ion-button>
+  </ion-footer>
+</ion-content>

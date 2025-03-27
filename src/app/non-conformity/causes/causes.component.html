@@ -1,0 +1,79 @@
+<div class="table-container">
+  <!-- Bouton Ajouter une ligne -->
+  <button class="add-button" (click)="addRow()">
+    <ion-icon name="add-circle-outline"></ion-icon> Ajouter une ligne
+  </button>
+
+  <!-- Tableau DevExtreme -->
+  <dx-data-grid
+    [dataSource]="dataSource"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [allowColumnResizing]="true"
+    [rowAlternationEnabled]="true"
+    [paging]="{ pageSize: 5 }"
+    [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }"
+    [editing]="{
+      mode: 'row',  
+      allowUpdating: true,
+      allowDeleting: true, 
+    }"
+    [filterRow]="{ visible: true }"
+    [groupPanel]="{ visible: true }">
+    
+    <!-- Colonne N° -->
+    <dxi-column dataField="N" caption="N°"></dxi-column>
+
+    <!-- Colonne Causes -->
+    <dxi-column dataField="causes" caption="Causes">
+      <dxo-lookup
+        [dataSource]="causesList"
+        displayExpr="designation"  
+        valueExpr="designation">  <!-- Valeur stockée -->
+      </dxo-lookup>
+    </dxi-column>
+
+    <!-- Colonne Description -->
+    <dxi-column dataField="description" caption="Description"></dxi-column>
+
+    <!-- Colonne Maintenue -->
+    <dxi-column dataField="maintenue" caption="Maintenue" dataType="boolean"></dxi-column>
+
+    <!-- Colonne Nom de fichier -->
+    <dxi-column dataField="nom de fichier" caption="Nom de fichier" [cellTemplate]="'fileCellTemplate'">
+    </dxi-column>
+
+    <!-- Template personnalisé -->
+    <ng-template #fileCellTemplate let-data>
+      <span class="clickable-cell" (click)="openFilePopup(data.rowIndex)">
+        {{ data.data['nom de fichier'] || "Cliquez pour ajouter un fichier" }}
+      </span>
+    </ng-template>
+
+    <!-- Colonne Evaluation -->
+    <dxi-column dataField="evaluation" caption="Evaluation"></dxi-column>
+
+    <!-- Colonne Cause racine -->
+    <dxi-column dataField="cause racine" caption="Cause racine" dataType="boolean"></dxi-column>
+  </dx-data-grid>
+
+  <dx-popup
+    *ngIf="filePopupVisible"
+    [visible]="filePopupVisible"
+    [showTitle]="true"
+    title="Sélectionner un fichier"
+    [width]="400"
+    [height]="250"
+    (onHiding)="closeFilePopup()">
+
+    <div class="file-upload-container">
+      <input type="file" (change)="onFileSelected($event)" />
+    </div>
+
+    <div class="popup-buttons">
+      <button (click)="saveFile()">Enregistrer</button>
+      <button (click)="closeFilePopup()">Annuler</button>
+    </div>
+  </dx-popup>
+</div>
+

@@ -1,0 +1,134 @@
+// Container for filter icon and plus button
+.action-buttons-container {
+  display: flex;
+  justify-content: space-between; /* Espacement entre les éléments */
+  align-items: center; /* Alignement vertical centré */
+  position: relative; /* Position relative pour gérer les éléments absolument positionnés si nécessaire */
+  width: 100%; /* Assurez-vous que le conteneur prend toute la largeur */
+  padding: 10px; /* Ajout d'un peu de padding autour */
+}
+
+// Icône de filtre
+.icon-filter {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #007bff; /* Bordure violette */
+  background-color: white; /* Fond blanc */
+  cursor: pointer; /* Effet cliquable */
+  transition: 0.3s ease-in-out;
+  margin-right: 10px; /* Décalage du filtre vers la droite */
+}
+
+.icon-filter ion-icon {
+  font-size: 24px;
+  color: #007bff;
+}
+
+.icon-filter:hover {
+  background-color: rgba(128, 0, 128, 0.1); /* Léger effet au survol */
+}
+
+// Style pour le bouton circulaire
+.plus-button {
+  background-color: #007BFF; /* Blue color */
+  color: white; /* Text color for the icon */
+  border-radius: 50%; /* Makes the button circular */
+  width: 60px; /* Button width */
+  height: 60px; /* Button height */
+  padding: 0; /* Remove any padding */
+  font-size: 30px; /* Increase icon size inside the button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.plus-button ion-icon {
+  font-size: 30px; /* Adjust size of the plus icon */
+}
+
+
+/* Style pour le tableau des participants */
+.participant-list {
+  margin: 10px;
+  padding: 10px;
+}
+
+.participant-item {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+ion-col {
+  text-align: center;
+  padding: 5px;
+}
+
+.status-badge {
+  font-size: 14px;
+  width: 40px; 
+  height: 40px; 
+  padding: 0;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 120%; /* Positionne au-dessus du badge */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.empty-message {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+}
+
+.status-badges-container {
+  display: flex;
+  gap: 8px; /* Espacer les badges */
+  align-items: center; /* Centrer les badges horizontalement */
+  margin-top: -9px; 
+}
+
+
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
+  gap: 5px; /* Espacement entre les checkboxes */
+  justify-content: space-between; /* Répartit l'espace entre les éléments */
+}
+
+.checkbox {
+  padding: 5px; /* Ajoute un peu d'espace à l'intérieur de chaque checkbox */
+}

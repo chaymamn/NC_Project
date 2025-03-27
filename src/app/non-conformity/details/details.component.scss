@@ -1,0 +1,127 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* Espace entre les lignes */
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px; /* Espace entre les champs */
+  }
+  
+  .form-group {
+    flex: 1; /* Ajuste la largeur des champs */
+  }
+  
+  .custom-label {
+    color: #007BFF;
+    font-weight: bold;
+    font-size: 22px;
+    display: block;
+    margin-bottom: 5px; /* Espacement entre le label et l'input */
+  }
+  
+  .custom-select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    width: 100%; 
+  }
+
+  .required-star {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .wide-textarea {
+    width: 100%; /* Étend le textarea à la largeur disponible */
+  }
+  
+  .wide-textarea textarea {
+    width: 100%;
+    min-height: 60px; /* Ajuste la hauteur pour plus de confort */
+    resize: vertical; /* Permet le redimensionnement vertical uniquement */
+    font-size: 16px;
+  }
+  
+
+  .checkbox-container {
+    border: 2px solid #007BFF;
+    border-radius: 10px;
+    padding: 10px;
+    display: inline-block;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    gap: 55px;
+    align-items: center;
+  }
+  
+  .checkbox-label {
+    font-size: 30px; /* Augmenter la taille des lettres */
+    font-weight: bold;
+  }
+  
+  .blue {
+    color: #1079e2; /* Bleu foncé */
+  }
+  
+  .red {
+    color: #FF0000; /* Rouge */
+  }
+  
+  .green {
+    color: #0fa20f; /* Vert foncé */
+  }
+  
+  .purple {
+    color: #a512a5; /* Violet */
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.8); /* Augmenter la taille de la checkbox */
+    margin-right: 10px; /* Espacement entre la checkbox et le label */
+  }
+  
+/* Personnalisation de l'input de date */
+input[type="date"] {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 2px solid ;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+    height: 35px;
+    
+    /* Ajout de l'ombre au focus */
+    &:focus {
+      outline: none;
+      border-color: #0056b3;
+      background-color: #fff;
+    }
+  
+    /* Personnalisation de la flèche du calendrier (dans les navigateurs prenant en charge cette personnalisation) */
+    &::-webkit-calendar-picker-indicator {
+      background-color: #007BFF;
+      border-radius: 5px;
+      padding: 5px;
+      color: #fff;
+    }
+  
+    /* Personnalisation des dates sélectionnées */
+    &::-webkit-datetime-edit {
+      color: #333;
+    }
+    
+    /* Personnalisation de l'élément de date dans le navigateur Firefox */
+    &::-moz-calendar {
+      color: #007BFF;
+    }
+  }
+  
+  

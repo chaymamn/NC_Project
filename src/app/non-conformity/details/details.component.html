@@ -1,0 +1,121 @@
+<div class="content-container">
+  <form > <!--[formGroup]="detailsForm"-->
+    <!-- Première partie -->
+    <div *ngIf="!showSecondPart">
+      <ion-item lines="none">
+        <ion-label position="floating">Nature</ion-label>
+        <ion-input formControlName="nature" [(ngModel)]="nonConformityService.non_conformity.nonConformityNatureStr" readonly></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Source</ion-label>
+        <ion-input formControlName="source" [(ngModel)]="nonConformityService.non_conformity.nonConformitySourceStr"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Processus</ion-label>
+        <ion-select formControlName="processus" [(ngModel)]="selectedProcess" (ionChange)=" setNCProcess($event.detail.value)"  >
+          <ion-select-option *ngFor="let p of processusList" [value]="p">{{ p.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Service Responsable</ion-label>
+        <ion-select (ionChange)="setNCService($event)">
+          <ion-select-option *ngFor="let s of services" [value]="s">{{ s }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+
+      <ion-item lines="none">
+        <ion-label position="floating">Intitulé <span class="required-star">*</span></ion-label>
+        <ion-textarea formControlName="intitule" required placeholder="Write here.." [(ngModel)]="nonConformityService.non_conformity.designation"></ion-textarea>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Description</ion-label>
+        <dx-html-editor formControlName="description" [(ngModel)]="nonConformityService.non_conformity.description" height="200px" [toolbar]="{ items: ['bold', 'italic', 'underline', 'strike', 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify', 'orderedList', 'bulletList', 'link'] }"></dx-html-editor>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Exigences</ion-label>
+        <dx-html-editor formControlName="exigences" [(ngModel)]="nonConformityService.non_conformity.requirement" height="200px" [toolbar]="{ items: ['bold', 'italic', 'underline', 'strike', 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify', 'orderedList', 'bulletList', 'link'] }"></dx-html-editor>
+      </ion-item>
+
+      <!-- ooon enchaainee par ceecii -->
+      <ion-item lines="none">
+        <ion-label position="floating">Système</ion-label>
+        <ion-checkbox formControlName="q" [(ngModel)]="nonConformityService.non_conformity.q" value="q" label="Q"></ion-checkbox>
+        <ion-checkbox formControlName="s" [(ngModel)]="nonConformityService.non_conformity.s" value="s" label="S"></ion-checkbox>
+        <ion-checkbox formControlName="e" [(ngModel)]="nonConformityService.non_conformity.e" value="e" label="E"></ion-checkbox>
+        <ion-checkbox formControlName="h" [(ngModel)]="nonConformityService.non_conformity.h" value="SDA" label="SDA"></ion-checkbox>
+      </ion-item>
+
+      <ion-row>
+        <ion-col class="ion-text-end">
+          <ion-button color="primary" (click)="next()">Next</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- Deuxième partie -->
+    <div *ngIf="showSecondPart">
+      <ion-item lines="none">
+        <ion-label position="floating">Détectée le <span class="required-star">*</span></ion-label>
+        <ion-datetime formControlName="detectionDate" [(ngModel)]="nonConformityService.non_conformity.detectionDate" required></ion-datetime>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Types Non-Conformité <span class="required-star">*</span></ion-label>
+        <ion-select formControlName="type" [(ngModel)]="selectedNCType" (ionChange)=" setNCType($event.detail.value)">
+          <ion-select-option *ngFor="let t of nonConformityTypes" [value]="t">{{ t.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Catégorie NC</ion-label>
+        <ion-select formControlName="categorie" [(ngModel)]="selectedNCCateg" (ionChange)=" setNCCateg($event.detail.value)">
+          <ion-select-option *ngFor="let c of nonConformityCategories" [value]="c">{{ c.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Priorités</ion-label>
+        <ion-select formControlName="priorite" [(ngModel)]="selectedNCPriority" (ionChange)=" setNCPriority($event.detail.value)">
+          <ion-select-option *ngFor="let p of commonPriorities" [value]="p">{{ p.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Intensité</ion-label>
+        <ion-select formControlName="intensite" [(ngModel)]="selectedNCIntensity" (ionChange)=" setNCINtensity($event.detail.value)">
+          <ion-select-option *ngFor="let i of intensities" [value]="i">{{ i.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Fréquence</ion-label>
+        <ion-select formControlName="frequence" [(ngModel)]="selectedNCFrequency" (ionChange)=" setNCFrequency($event.detail.value)">
+          <ion-select-option *ngFor="let f of frequencies" [value]="f">{{ f.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Gravité</ion-label>
+        <ion-select formControlName="gravite" [(ngModel)]="selectedNCGravity" (ionChange)=" setNCGravity($event.detail.value)">
+          <ion-select-option *ngFor="let g of gravities" [value]="g">{{ g.designation }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Risques associés</ion-label>
+        <ion-textarea formControlName="risques" [(ngModel)]="nonConformityService.non_conformity.associatedRisk"></ion-textarea>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Opportunités associées</ion-label>
+        <ion-textarea formControlName="opportunites" [(ngModel)]="nonConformityService.non_conformity.associatedOpportunity"></ion-textarea>
+      </ion-item>
+    </div>
+  </form>
+</div>
